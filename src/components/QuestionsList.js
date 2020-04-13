@@ -11,12 +11,12 @@ class QuestionsList extends Component {
   }
 
   render() {
-    const { questions } = this.props;
+    const { filteredQuestions } = this.props;
     return (
       <ul>
-        {questions.map(question => (
-          <li key={question}>
-            <QuestionCard id={question} />
+        {filteredQuestions.map(question => (
+          <li key={question.id}>
+            <QuestionCard question={question} />
           </li>
         ))}
       </ul>
@@ -26,23 +26,26 @@ class QuestionsList extends Component {
 
 QuestionsList.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filteredQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = ({ authedUser, questions, users }, ownProps) => {
-  const questionsArray = Object.keys(questions);
+  const questionsArray = Object.keys(questions).map(question => questions[question]);
   const authedUserObject = users[authedUser];
   const authedUserAnswers = authedUserObject && Object.keys(authedUserObject.answers);
 
-  const filteredQuestions = questionsArray.filter(question => {
-    const authedUserHasAnsweredQuestion = authedUserAnswers && authedUserAnswers.includes(question);
-    return ownProps.type === 'answered'
-      ? authedUserHasAnsweredQuestion
-      : !authedUserHasAnsweredQuestion;
-  });
+  const filteredQuestions = questionsArray
+    .filter(question => {
+      const authedUserHasAnsweredQuestion =
+        authedUserAnswers && authedUserAnswers.includes(question.id);
+      return ownProps.type === 'answered'
+        ? authedUserHasAnsweredQuestion
+        : !authedUserHasAnsweredQuestion;
+    })
+    .sort((a, b) => b.timestamp - a.timestamp);
 
   return {
-    questions: filteredQuestions,
+    filteredQuestions,
   };
 };
 

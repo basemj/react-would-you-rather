@@ -21,7 +21,7 @@ const QuestionCard = props => {
       {user.name}
       asks would you rather
       {question.optionOne && question.optionOne.text}
-      <span>or ... </span>
+      <span>or ...</span>
       <Link to={`questions/${question.id}`}>{question.id}</Link>
     </div>
   );
@@ -46,12 +46,11 @@ QuestionCard.defaultProps = {
   user: {},
 };
 
-const mapStateToProps = ({ users, questions }, ownProps) => {
-  const question = questions && questions[ownProps.id];
+const mapStateToProps = ({ users }, ownProps) => {
+  const { question } = ownProps;
   const user = question && users && users[question.author];
   return {
     user,
-    question,
   };
 };
 
