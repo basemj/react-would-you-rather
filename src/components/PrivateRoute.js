@@ -1,3 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable no-undef */
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable react/jsx-props-no-spreading */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
@@ -25,7 +30,11 @@ const PrivateRoute = ({ children, authedUser, ...rest }) => {
 
 PrivateRoute.propTypes = {
   authedUser: PropTypes.string,
-  children: PropTypes.object,
+  children: PropTypes.object.isRequired,
+};
+
+PrivateRoute.defaultProps = {
+  authedUser: '',
 };
 
 const mapStateToProps = ({ authedUser }) => {
