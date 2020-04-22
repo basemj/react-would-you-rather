@@ -10,10 +10,10 @@ const Home = () => {
         <Tab>answered</Tab>
       </TabList>
       <TabPanel>
-        <QuestionsList type="answered" />
+        <QuestionsList />
       </TabPanel>
       <TabPanel>
-        <QuestionsList />
+        <QuestionsList type="answered" />
       </TabPanel>
     </Tabs>
   );
