@@ -6,15 +6,6 @@ import { Link } from 'react-router-dom';
 const QuestionCard = props => {
   const { question, user } = props;
 
-  if (!user.id) {
-    return (
-      <div>
-        Cannot find question. Return to
-        <Link to="/">Home</Link>
-      </div>
-    );
-  }
-
   return (
     <div>
       <img src={`/assets/${user.avatarURL}`} alt="" />
