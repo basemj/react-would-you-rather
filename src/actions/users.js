@@ -1,11 +1,21 @@
 import { _getUsers } from '../utils/_DATA';
 
 const RECEIVE_USERS = 'RECEIVE_USERS';
+const SAVE_USER_ANSWERS = 'SAVE_USER_ANSWERS';
 
 const receiveUsers = users => {
   return {
     type: RECEIVE_USERS,
     users,
+  };
+};
+
+const saveUserAnswers = (authedUser, qid, answer) => {
+  return {
+    type: SAVE_USER_ANSWERS,
+    authedUser,
+    qid,
+    answer,
   };
 };
 
@@ -15,4 +25,9 @@ const handleReceiveUsers = () => {
   };
 };
 
-export { RECEIVE_USERS, handleReceiveUsers };
+export {
+  RECEIVE_USERS,
+  SAVE_USER_ANSWERS,
+  saveUserAnswers,
+  handleReceiveUsers,
+};

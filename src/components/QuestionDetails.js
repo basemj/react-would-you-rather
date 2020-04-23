@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { handleSaveQuestionAnswer } from "../actions/sharedHandlers";
 
 const QuestionDetails = props => {
   const {
+    authedUser,
     question,
     author,
     isAnswered,
@@ -13,6 +15,7 @@ const QuestionDetails = props => {
     optionOnePercentage,
     optionTwoCount,
     optionTwoPercentage,
+    dispatch,
   } = props;
 
   if (!question) {
@@ -23,6 +26,10 @@ const QuestionDetails = props => {
       </div>
     );
   }
+
+  const submitAnswer = (answer) => {
+    dispatch(handleSaveQuestionAnswer(authedUser, question.id, answer));
+  };
 
   return (
     <div>
@@ -40,7 +47,11 @@ const QuestionDetails = props => {
         %
         {optionOneCount}
       </p>
-      { isAnswered ? <span>A</span> : <input type="button" value="A" /> }
+      {
+        isAnswered ?
+          <span>A</span> :
+          <input type="button" value="A" onClick={() => submitAnswer('optionOne')} />
+      }
 
       <p>
         b.
@@ -49,7 +60,11 @@ const QuestionDetails = props => {
         %
         {optionTwoCount}
       </p>
-      { isAnswered ? <span>B</span> : <input type="button" value="B" /> }
+      {
+        isAnswered ?
+          <span>B</span> :
+          <input type="button" value="B" onClick={() => submitAnswer('optionTwo')} />
+      }
 
       { isAnswered && (
         <p>
@@ -63,6 +78,7 @@ const QuestionDetails = props => {
 };
 
 QuestionDetails.propTypes = {
+  authedUser: PropTypes.string.isRequired,
   answeredOption: PropTypes.string,
   author: PropTypes.shape({
     id: PropTypes.string,
@@ -75,9 +91,11 @@ QuestionDetails.propTypes = {
   optionTwoCount: PropTypes.number,
   optionTwoPercentage: PropTypes.number,
   question: PropTypes.shape({
+    id: PropTypes.string,
     optionOne: PropTypes.object,
     optionTwo: PropTypes.object,
-  }).isRequired
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 QuestionDetails.defaultProps = {
@@ -108,6 +126,7 @@ const mapStateToProps = ({ authedUser, users, questions }, ownProps) => {
     question.optionOne.votes.includes(authedUser) ? 'optionOne' : 'optionTwo';
 
   return {
+    authedUser,
     question,
     author,
     isAnswered,
