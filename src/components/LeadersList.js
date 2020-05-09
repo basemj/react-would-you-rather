@@ -24,7 +24,6 @@ const LeadersList = ({orderedUsers}) => {
                   <p>
                     <span>Questions asked: </span>
                     <b> 
-                      {' '}
                       {user.asked.length}
                     </b>
                   </p>
