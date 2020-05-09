@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
+import { Button, Form, Row, Col } from "react-bootstrap";
 import { handleReceiveUsers } from '../actions/users';
 import { setAuthedUser } from '../actions/authedUser';
 
@@ -40,25 +41,32 @@ class LoginForm extends Component {
     return authedUser ? (
       <Redirect to={location.state.from.pathname} />
     ) : (
-      <form onSubmit={this.handleFormsubmit || '/'}>
-        <label htmlFor="userSelect" />
-        <select
-          id="userSelect"
-          value={userSelection}
-          onChange={this.handleSelectChange}
-          disabled={!users.length > 0}
-        >
-          <option value="">Select...</option>
-          {users.map(user => (
-            <option key={user.id} value={user.id}>
-              {user.name}
-            </option>
-          ))}
-        </select>
-        <button type="submit" disabled={!userSelection}>
-          Sign in
-        </button>
-      </form>
+      <Row>
+        <Col md={{ span: 6, offset: 3 }}>
+          <h1>Login</h1>
+          <Form onSubmit={this.handleFormsubmit || '/'}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Select user</Form.Label>
+              <Form.Control
+                as="select"
+                value={userSelection}
+                onChange={this.handleSelectChange}
+                disabled={!users.length > 0}
+              >
+                <option value="">Select...</option>
+                {users.map(user => (
+                  <option key={user.id} value={user.id}>
+                    {user.name}
+                  </option>
+            ))}
+              </Form.Control>
+            </Form.Group>
+            <Button variant="primary" type="submit" disabled={!userSelection}>
+              Sign in
+            </Button>
+          </Form>
+        </Col>
+      </Row>
     );
   }
 }

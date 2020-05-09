@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Navbar } from "react-bootstrap";
+import { Navbar, Container } from 'react-bootstrap';
 import { handleReceiveQuestions } from './actions/questions';
 import Home from './routes/Home';
 import Login from './routes/Login';
@@ -33,22 +33,24 @@ class App extends Component {
           </Navbar.Collapse>
         </Navbar>
 
-        <Switch>
-          <PrivateRoute exact path="/">
-            <Home />
-          </PrivateRoute>
-          <PrivateRoute exact path="/new-question">
-            <NewQuestion />
-          </PrivateRoute>
-          <PrivateRoute exact path="/leaderboard">
-            <Leaderboard />
-          </PrivateRoute>
-          <PrivateRoute exact path="/questions/:id">
-            <Question />
-          </PrivateRoute>
-          <Route exact path="/login" component={Login} />
-          <Route component={PageNotFound} />
-        </Switch>
+        <Container>
+          <Switch>
+            <PrivateRoute exact path="/">
+              <Home />
+            </PrivateRoute>
+            <PrivateRoute exact path="/new-question">
+              <NewQuestion />
+            </PrivateRoute>
+            <PrivateRoute exact path="/leaderboard">
+              <Leaderboard />
+            </PrivateRoute>
+            <PrivateRoute exact path="/questions/:id">
+              <Question />
+            </PrivateRoute>
+            <Route exact path="/login" component={Login} />
+            <Route component={PageNotFound} />
+          </Switch>
+        </Container>
       </BrowserRouter>
     );
   }
