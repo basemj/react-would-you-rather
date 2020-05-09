@@ -30,7 +30,8 @@ const saveUserQuestion = (authedUser, id) => {
 
 const handleReceiveUsers = () => {
   return dispatch => {
-    return _getUsers().then(users => dispatch(receiveUsers(users)));
+    return _getUsers()
+      .then(users => dispatch(receiveUsers(users)));
   };
 };
 

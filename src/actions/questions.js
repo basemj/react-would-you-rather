@@ -29,7 +29,8 @@ const saveQuestion = (question) => {
 
 const handleReceiveQuestions = () => {
   return dispatch => {
-    return _getQuestions().then(questions => dispatch(receiveQuestions(questions)));
+    return _getQuestions()
+      .then(questions => dispatch(receiveQuestions(questions)));
   };
 };
 

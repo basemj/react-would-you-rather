@@ -12,6 +12,7 @@ class NewQuestionForm extends Component {
       optionOneText: '',
       optionTwoText: '',
       showError: false,
+      loading: false,
     };
   }
 
@@ -25,6 +26,7 @@ class NewQuestionForm extends Component {
     const { dispatch } = this.props;
     const { optionOneText, optionTwoText } = this.state;
     if(optionOneText && optionTwoText) {
+      this.setState({loading: true});
       dispatch(handleSaveQuestion(optionOneText, optionTwoText))
         .then(() => {
           const {history} = this.props;
@@ -36,7 +38,7 @@ class NewQuestionForm extends Component {
   }
 
   render() {
-    const {optionOneText, optionTwoText, showError} = this.state;
+    const {optionOneText, optionTwoText, showError, loading} = this.state;
 
     return (
       <div>
@@ -62,7 +64,7 @@ class NewQuestionForm extends Component {
           />
 
           {showError && <p>Both fields must be completed</p>}
-          <input type="submit" />
+          <input type="submit" disabled={loading} />
         </form>
       </div>
     );
