@@ -33,7 +33,7 @@ class App extends Component {
           </Navbar.Collapse>
         </Navbar>
 
-        <Container>
+        <Container className="pt-5">
           <Switch>
             <PrivateRoute exact path="/">
               <Home />

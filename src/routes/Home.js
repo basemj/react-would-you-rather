@@ -1,13 +1,14 @@
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import QuestionsList from '../components/QuestionsList';
+import 'react-tabs/style/react-tabs.css';
 
 const Home = () => {
   return (
     <Tabs>
       <TabList>
-        <Tab>unanswered</Tab>
-        <Tab>answered</Tab>
+        <Tab>Unanswered</Tab>
+        <Tab>Answered</Tab>
       </TabList>
       <TabPanel>
         <QuestionsList />
