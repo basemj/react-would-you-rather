@@ -1,0 +1,8 @@
+.questionslist {
+  list-style-type: none;
+  padding: 0;
+}
+
+.questionslist li {
+  margin: 20px 0;
+}

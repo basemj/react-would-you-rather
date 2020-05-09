@@ -2,19 +2,23 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Card, Button } from "react-bootstrap";
+import styles from "./questionCard.module.css";
 
 const QuestionCard = props => {
   const { question, user } = props;
 
   return (
-    <div>
-      <img src={`/assets/${user.avatarURL}`} alt="" />
-      {user.name}
-      asks would you rather
-      {question.optionOne && question.optionOne.text}
-      <span>or ...</span>
-      <Link to={`questions/${question.id}`}>{question.id}</Link>
-    </div>
+    <Card>
+      <Card.Header>
+        <img className={styles.avatar} src={`/assets/${user.avatarURL}`} alt="" />
+        {`${user.name} asks`}
+      </Card.Header>
+      <Card.Body>
+        <Card.Title>{`asks would you rather ${question.optionOne.text} or...`}</Card.Title>
+        <Button as={Link} to={`questions/${question.id}`} variant="secondary">See question</Button>
+      </Card.Body>
+    </Card>
   );
 };
 

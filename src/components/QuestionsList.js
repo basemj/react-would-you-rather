@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleReceiveQuestions } from '../actions/questions';
 import QuestionCard from './QuestionCard';
+import styles from "./questionsList.module.css";
 
 class QuestionsList extends Component {
   componentDidMount() {
@@ -13,7 +14,7 @@ class QuestionsList extends Component {
   render() {
     const { filteredQuestions } = this.props;
     return (
-      <ul>
+      <ul className={styles.questionslist}>
         {filteredQuestions.map(question => (
           <li key={question.id}>
             <QuestionCard question={question} />
