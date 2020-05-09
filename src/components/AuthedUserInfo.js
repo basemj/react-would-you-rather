@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Button, Navbar } from "react-bootstrap";
 import { setAuthedUser } from '../actions/authedUser';
+import styles from './authedUserInfo.module.css';
 
 class AuthedUserInfo extends Component {
   logout = () => {
@@ -15,16 +17,11 @@ class AuthedUserInfo extends Component {
 
     return (
       authedUser && (
-        <div>
-          <span>
-            Hello
-            {name}
-          </span>
-          <img src={`/assets/${avatarURL}`} alt="" />
-          <button type="button" onClick={this.logout}>
-            Logout
-          </button>
-        </div>
+        <Navbar.Text>
+          {`Hello ${name}`}          
+          <img alt={`${name}'s avatar`} className={styles.avatar} src={`/assets/${avatarURL}`} />
+          <Button onClick={this.logout}>Logout</Button>
+        </Navbar.Text>
       )
     );
   }

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Navbar } from "react-bootstrap";
 import { handleReceiveQuestions } from './actions/questions';
 import Home from './routes/Home';
 import Login from './routes/Login';
@@ -13,6 +14,8 @@ import NewQuestion from './routes/NewQuestion';
 import Leaderboard from './routes/Leaderboard';
 import Question from './routes/Question';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
@@ -22,8 +25,14 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Navigation />
-        <AuthedUserInfo />
+        <Navbar bg="light" expand="lg">
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Navigation />
+            <AuthedUserInfo />
+          </Navbar.Collapse>
+        </Navbar>
+
         <Switch>
           <PrivateRoute exact path="/">
             <Home />

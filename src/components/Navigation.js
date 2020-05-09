@@ -1,27 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { Nav } from "react-bootstrap";
 
 const Navigation = () => {
   return (
-    <nav className="nav">
-      <ul>
-        <li>
-          <NavLink to="/" exact activeClassName="active">
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/new-question" activeClassName="active">
-            New Question
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/leaderboard" activeClassName="active">
-            Leaderboard
-          </NavLink>
-        </li>
-      </ul>
-    </nav>
+    <Nav className="mr-auto">
+      <Nav.Link exact as={NavLink} to="/">Home</Nav.Link>
+      <Nav.Link exact as={NavLink} to="/new-question">New Question</Nav.Link>
+      <Nav.Link exact as={NavLink} to="/leaderboard">Leaderboard</Nav.Link>
+    </Nav>
   );
 };
 
