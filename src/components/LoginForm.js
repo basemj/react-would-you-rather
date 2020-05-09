@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -65,7 +66,7 @@ class LoginForm extends Component {
 LoginForm.propTypes = {
   authedUser: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
-  location: PropTypes.object,
+  location: PropTypes.shape({state: PropTypes.object}).isRequired,
   users: PropTypes.arrayOf(PropTypes.object),
 };
 

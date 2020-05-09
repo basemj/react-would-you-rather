@@ -1,7 +1,10 @@
 import React from 'react';
+import NewQuestionForm from '../components/NewQuestionForm';
 
 const NewQuestion = () => {
-  return <div>New question</div>;
+  return (
+    <NewQuestionForm />
+  );
 };
 
 export default NewQuestion;

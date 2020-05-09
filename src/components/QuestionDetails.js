@@ -18,7 +18,7 @@ const QuestionDetails = props => {
     dispatch,
   } = props;
 
-  if (!question) {
+  if (!question.id) {
     return (
       <div>
         Cannot find question. Return to
@@ -84,8 +84,8 @@ QuestionDetails.propTypes = {
     id: PropTypes.string,
     avatarURL: PropTypes.string,
     name: PropTypes.string,
-  }).isRequired,
-  isAnswered: PropTypes.bool.isRequired,
+  }),
+  isAnswered: PropTypes.bool,
   optionOneCount: PropTypes.number,
   optionOnePercentage: PropTypes.number,
   optionTwoCount: PropTypes.number,
@@ -94,7 +94,7 @@ QuestionDetails.propTypes = {
     id: PropTypes.string,
     optionOne: PropTypes.object,
     optionTwo: PropTypes.object,
-  }).isRequired,
+  }),
   dispatch: PropTypes.func.isRequired,
 };
 
@@ -104,6 +104,9 @@ QuestionDetails.defaultProps = {
   optionOnePercentage: 0,
   optionTwoCount: 0,
   optionTwoPercentage: 0,
+  author: {},
+  isAnswered: false,
+  question: {},
 };
 
 const mapStateToProps = ({ authedUser, users, questions }, ownProps) => {
@@ -119,8 +122,11 @@ const mapStateToProps = ({ authedUser, users, questions }, ownProps) => {
   const optionOneCount = question && question.optionOne.votes.length;
   const optionTwoCount = question && question.optionTwo.votes.length;
 
-  const optionOnePercentage = 100 / (optionOneCount + optionTwoCount) * optionOneCount;
-  const optionTwoPercentage = 100 / (optionOneCount + optionTwoCount) * optionTwoCount;
+  const optionOnePercentage = optionOneCount ?
+    100 / (optionOneCount + optionTwoCount) * optionOneCount : 0;
+
+  const optionTwoPercentage = optionTwoCount ?
+    100 / (optionOneCount + optionTwoCount) * optionTwoCount : 0;
 
   const answeredOption = isAnswered &&
     question.optionOne.votes.includes(authedUser) ? 'optionOne' : 'optionTwo';

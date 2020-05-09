@@ -2,6 +2,7 @@ import { _getQuestions } from '../utils/_DATA';
 
 const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
 const SAVE_QUESTION_ANSWERS = 'SAVE_QUESTION_ANSWERS';
+const SAVE_QUESTION = 'SAVE_QUESTION';
 
 const receiveQuestions = questions => {
   return {
@@ -19,6 +20,13 @@ const saveQuestionAnswers = (authedUser, qid, answer) => {
   };
 };
 
+const saveQuestion = (question) => {
+  return {
+    type: SAVE_QUESTION,
+    question
+  };
+};
+
 const handleReceiveQuestions = () => {
   return dispatch => {
     return _getQuestions().then(questions => dispatch(receiveQuestions(questions)));
@@ -28,6 +36,8 @@ const handleReceiveQuestions = () => {
 export {
   RECEIVE_QUESTIONS,
   SAVE_QUESTION_ANSWERS,
+  SAVE_QUESTION,
   saveQuestionAnswers,
-  handleReceiveQuestions
+  saveQuestion,
+  handleReceiveQuestions,
 };
