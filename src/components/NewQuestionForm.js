@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from "react-router-dom";
-import { handleSaveQuestion } from "../actions/sharedHandlers";
+import { withRouter } from 'react-router-dom';
+import { Row, Col, Form, Button } from 'react-bootstrap';
+import { handleSaveQuestion } from '../actions/sharedHandlers';
 
 class NewQuestionForm extends Component {
   constructor(props) {
@@ -17,65 +18,72 @@ class NewQuestionForm extends Component {
   }
 
   handleChange = event => {
-    const {id, value} = event.target;
-    this.setState({[id]: value});
-  }
+    const { id, value } = event.target;
+    this.setState({ [id]: value });
+  };
 
   handleFormsubmit = event => {
     event.preventDefault();
     const { dispatch } = this.props;
     const { optionOneText, optionTwoText } = this.state;
-    if(optionOneText && optionTwoText) {
-      this.setState({loading: true});
-      dispatch(handleSaveQuestion(optionOneText, optionTwoText))
-        .then(() => {
-          const {history} = this.props;
-          history.push('/');
-        });
+    if (optionOneText && optionTwoText) {
+      this.setState({ loading: true });
+      dispatch(handleSaveQuestion(optionOneText, optionTwoText)).then(() => {
+        const { history } = this.props;
+        history.push('/');
+      });
     } else {
-      this.setState({showError: true});
+      this.setState({ showError: true });
     }
-  }
+  };
 
   render() {
-    const {optionOneText, optionTwoText, showError, loading} = this.state;
+    const { optionOneText, optionTwoText, showError, loading } = this.state;
 
     return (
       <div>
-        <h1>Add new poll question</h1>
-        <p>Would you rather...</p>
-        <form onSubmit={this.handleFormsubmit}>
-          <label htmlFor="optionOneText">Option A</label>
-          <input
-            id="optionOneText"
-            type="text"
-            placeholder="Option A"
-            value={optionOneText}
-            onChange={this.handleChange}
-          />
+        <Row>
+          <Col md={{ span: 6, offset: 3 }}>
+            <h1>Add new poll question</h1>
+            <p>Would you rather...</p>
+            <Form onSubmit={this.handleFormsubmit}>
+              <Form.Group controlId="optionOneText">
+                <Form.Label>Option A</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter option A text"
+                  value={optionOneText}
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
 
-          <label htmlFor="optionTwoText">Option B</label>
-          <input
-            id="optionTwoText"
-            type="text"
-            placeholder="option B"
-            value={optionTwoText}
-            onChange={this.handleChange}
-          />
+              <Form.Group controlId="optionTwoText">
+                <Form.Label>Option B</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter option B text"
+                  value={optionTwoText}
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
 
-          {showError && <p>Both fields must be completed</p>}
-          <input type="submit" disabled={loading} />
-        </form>
+              {showError && <p>Both fields must be completed</p>}
+              <Button variant="primary" type="submit" disabled={loading}>
+                Add question
+              </Button>
+            </Form>
+          </Col>
+        </Row>
       </div>
     );
   }
-};
+}
 
 NewQuestionForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func
-  }).isRequired
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect()(withRouter(NewQuestionForm));
