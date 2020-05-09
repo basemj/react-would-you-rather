@@ -16,7 +16,9 @@ const QuestionCard = props => {
       </Card.Header>
       <Card.Body>
         <Card.Title>{`asks would you rather ${question.optionOne.text} or...`}</Card.Title>
-        <Button as={Link} to={`questions/${question.id}`} variant="secondary">See question</Button>
+        <Button as={Link} to={`questions/${question.id}`} variant="outline-primary">
+          See question
+        </Button>
       </Card.Body>
     </Card>
   );

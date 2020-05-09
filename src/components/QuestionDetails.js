@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { handleSaveQuestionAnswer } from "../actions/sharedHandlers";
+import { Button, Row, Col, Card } from 'react-bootstrap';
+import { handleSaveQuestionAnswer } from '../actions/sharedHandlers';
+import styles from './questionDetails.module.css';
 
 const QuestionDetails = props => {
   const {
@@ -21,8 +23,10 @@ const QuestionDetails = props => {
   if (!question.id) {
     return (
       <div>
-        Cannot find question. Return to
-        <Link to="/">Home</Link>
+        <p>
+          Cannot find question!
+        </p>
+        <Button as={Link} to="/" variant="primary">Return Home</Button>
       </div>
     );
   }
@@ -32,48 +36,88 @@ const QuestionDetails = props => {
   };
 
   return (
-    <div>
-      <img src={`/assets/${author.avatarURL}`} alt="" />
-      <span>
-        {author.name}
-      </span>
-      asks...
+    <Row>
+      <Col md={{ span: 8, offset: 2 }}>
+        <Card>
+          <Card.Header>
+            <div className="media">
+              <img className={styles.avatar} src={`/assets/${author.avatarURL}`} alt="" />
+              <div className="media-body">
+                <h1 className="display-4">{`${author.name} asks`}</h1>
+              </div>
+            </div>
+          </Card.Header>
+          <Card.Body>
+            <p>would you rather...</p>
 
-      <p>would you rather...</p>
-      <p>
-        a.
-        {question.optionOne.text}
-        {optionOnePercentage}
-        %
-        {optionOneCount}
-      </p>
-      {
-        isAnswered ?
-          <span>A</span> :
-          <input type="button" value="A" onClick={() => submitAnswer('optionOne')} />
-      }
+            <Card body>
+              <Row>
+                <Col sm={2}>
+                  <Button
+                    variant={isAnswered ? 'secondary' : 'primary'}
+                    type="button"
+                    disabled={isAnswered} 
+                    onClick={() => submitAnswer('optionOne')}
+                  >
+                    <b>A</b>
+                  </Button>
+                </Col>
 
-      <p>
-        b.
-        {question.optionTwo.text}
-        {optionTwoPercentage}
-        %
-        {optionTwoCount}
-      </p>
-      {
-        isAnswered ?
-          <span>B</span> :
-          <input type="button" value="B" onClick={() => submitAnswer('optionTwo')} />
-      }
+                <Col>
+                  <p>
+                    <b>
+                      {question.optionOne.text}
+                    </b>
+                  </p>
+                  { isAnswered && (
+                    <p>
+                      {`This answer was selected by ${optionOneCount} (${optionOnePercentage}%) `}
+                      {optionOneCount === 1 ? 'person' : 'people'}
+                    </p>
+                  )}
+                </Col>
+              </Row>
+            </Card>
 
-      { isAnswered && (
-        <p>
-          you answered
-          {'I would rather '}
-          {question[answeredOption].text}
-        </p>
-      )}
-    </div>
+            <Card body className="mt-3">
+              <Row>
+                <Col sm={2}>
+                  <Button
+                    variant={isAnswered ? 'secondary' : 'primary'}
+                    type="button"
+                    disabled={isAnswered} 
+                    onClick={() => submitAnswer('optionTwo')}
+                  >
+                    <b>B</b>
+                  </Button>
+                </Col>
+
+                <Col>
+                  <p>
+                    <b>
+                      {question.optionTwo.text}
+                    </b>
+                  </p>
+                  { isAnswered && (
+                    <p>
+                      {`This answer was selected by ${optionTwoCount} (${optionTwoPercentage}%) `}
+                      {optionTwoCount === 1 ? 'person' : 'people'}
+                    </p>
+                  )}
+                </Col>
+              </Row>
+            </Card>
+          </Card.Body>
+
+          { isAnswered && (
+            <Card.Footer>
+                {'You answered you would rather '}
+                {question[answeredOption].text}
+            </Card.Footer>
+          )}
+        </Card>
+      </Col>
+    </Row>
   );
 };
 
@@ -123,10 +167,10 @@ const mapStateToProps = ({ authedUser, users, questions }, ownProps) => {
   const optionTwoCount = question && question.optionTwo.votes.length;
 
   const optionOnePercentage = optionOneCount ?
-    100 / (optionOneCount + optionTwoCount) * optionOneCount : 0;
+    Math.round(100 / (optionOneCount + optionTwoCount) * optionOneCount) : 0;
 
   const optionTwoPercentage = optionTwoCount ?
-    100 / (optionOneCount + optionTwoCount) * optionTwoCount : 0;
+    Math.round(100 / (optionOneCount + optionTwoCount) * optionTwoCount) : 0;
 
   const answeredOption = isAnswered &&
     question.optionOne.votes.includes(authedUser) ? 'optionOne' : 'optionTwo';
